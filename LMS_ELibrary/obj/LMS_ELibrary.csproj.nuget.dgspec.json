@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PHUOC TRONG\\Documents\\GitHub\\LMS-Elibrary\\LMS_ELibrary\\LMS_ELibrary.csproj": {}
+    "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\LMS_ELibrary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PHUOC TRONG\\Documents\\GitHub\\LMS-Elibrary\\LMS_ELibrary\\LMS_ELibrary.csproj": {
+    "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\LMS_ELibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PHUOC TRONG\\Documents\\GitHub\\LMS-Elibrary\\LMS_ELibrary\\LMS_ELibrary.csproj",
+        "projectUniqueName": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\LMS_ELibrary.csproj",
         "projectName": "LMS_ELibrary",
-        "projectPath": "C:\\Users\\PHUOC TRONG\\Documents\\GitHub\\LMS-Elibrary\\LMS_ELibrary\\LMS_ELibrary.csproj",
-        "packagesPath": "C:\\Users\\PHUOC TRONG\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PHUOC TRONG\\Documents\\GitHub\\LMS-Elibrary\\LMS_ELibrary\\obj\\",
+        "projectPath": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\LMS_ELibrary.csproj",
+        "packagesPath": "C:\\Users\\arcei\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\PHUOC TRONG\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\arcei\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -42,35 +42,43 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[12.0.0, )"
+              "version": "[12.0.1, )"
             },
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
-              "version": "[12.0.0, )"
+              "version": "[12.0.1, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.1.1, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.21, )"
+              "version": "[7.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.21, )"
+              "version": "[7.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.21, )"
+              "version": "[7.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.21, )"
+              "version": "[7.0.10, )"
+            },
+            "Microsoft.Identity.Client": {
+              "target": "Package",
+              "version": "[4.55.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.2.3, )"
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
@@ -79,8 +87,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -92,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
