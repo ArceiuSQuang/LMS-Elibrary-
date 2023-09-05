@@ -1,7 +1,7 @@
 using LMS_ELibrary.Model;
 using LMS_ELibrary.Services;
 using Microsoft.EntityFrameworkCore;
-
+/*we*/
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

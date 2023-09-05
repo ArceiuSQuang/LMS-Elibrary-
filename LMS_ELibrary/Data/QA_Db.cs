@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+/*we*/
 namespace LMS_ELibrary.Data
 {
     [Table("QA")]
