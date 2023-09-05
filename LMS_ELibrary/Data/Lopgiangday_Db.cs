@@ -10,7 +10,7 @@ namespace LMS_ELibrary.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int LopgiangdayID { get; set; }
         public int? UserID { get; set; }
-        public virtual User_Db User { get; set; }
+        public virtual User_Db? User { get; set; }
         public int? MonhocID { get; set; }
         public virtual Monhoc_Db Monhoc { get; set; }
         [Required]

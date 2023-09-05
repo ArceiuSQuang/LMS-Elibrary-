@@ -11,7 +11,7 @@ namespace LMS_ELibrary.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DocId { get; set; }
         public int? UserId { get; set; }
-        public virtual User_Db User { get; set; }
+        public virtual User_Db? User { get; set; }
         [Required]
         public string TenDoc { get; set; }
         public int? MonhocID { get; set; }

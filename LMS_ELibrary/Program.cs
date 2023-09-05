@@ -17,6 +17,10 @@ builder.Services.AddDbContext<LMS_ELibraryContext>(opt => opt.UseSqlServer(build
 //register service
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMonhocService, MonhocService>();
+builder.Services.AddScoped<IChudeService, ChudeService>();
+builder.Services.AddScoped<ITailieuService, TailieuService>();
+builder.Services.AddScoped<ILopgiangService, LopgiangService>();
+
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
