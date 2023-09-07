@@ -15,11 +15,11 @@ namespace LMS_ELibrary.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Tailieu_Baigiang_Model>> getAlltailieu()
+        public async Task<IEnumerable<Tailieu_Baigiang_Model>> getAlltailieu(int id)
         {
             try
             {
-                var result = await (from tailieu in _context.tailieu_Baigiang_Dbs where tailieu.Type == 0 select tailieu).ToListAsync();
+                var result = await (from tailieu in _context.tailieu_Baigiang_Dbs where tailieu.Type == 0 && tailieu.UserId == id select tailieu).ToListAsync();
                 foreach (var item in result)
                 {
                     var col = _context.Entry(item);
@@ -155,6 +155,43 @@ namespace LMS_ELibrary.Services
                 }
 
                 return kq;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<KqJson> delTailieu(int id)
+        {
+            try
+            {
+                KqJson kq = new KqJson();
+
+                var result = await _context.tailieu_Baigiang_Dbs.SingleOrDefaultAsync(p => p.DocId == id && p.Type == 0);
+                if (result != null)
+                {
+                    _context.tailieu_Baigiang_Dbs.Remove(result);
+                    int num_row = await _context.SaveChangesAsync();
+                    if (num_row > 0)
+                    {
+                        kq.Status = true;
+                        kq.Message = "Xoa thanh cong";
+                    }
+                    else
+                    {
+                        kq.Status = false;
+                        kq.Message = "Xoa that bai";
+                    }
+                }
+                else
+                {
+                    kq.Status = false;
+                    kq.Message = "Khong tim thay";
+                }
+
+                return kq;
+
             }
             catch (Exception e)
             {
