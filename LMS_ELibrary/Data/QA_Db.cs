@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-/*we*/
+
 namespace LMS_ELibrary.Data
 {
     [Table("QA")]
@@ -15,9 +15,9 @@ namespace LMS_ELibrary.Data
         [Required]
         public string Cautrl { get; set; }
         public int? MonhocID { get; set; }
-        public virtual Monhoc_Db Monhoc { get; set; }
+        public virtual Monhoc_Db? Monhoc { get; set; }
         public DateTime? Lancuoisua { get; set; }
 
-        public virtual List<Ex_QA_Db> ListExQA { get; set; }
+        public virtual List<Ex_QA_Db>? ListExQA { get; set; }
     }
 }

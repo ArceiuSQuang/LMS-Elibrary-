@@ -6,12 +6,14 @@ namespace LMS_ELibrary.Model
     public class Thongbao_Model
     {
         public string? Tieude { get; set; }
-       
+
         public string? Noidung { get; set; }
-        
+
         public DateTime? Thoigian { get; set; }
         public int? UserID { get; set; }
-        
+
         public int? Status { get; set; }
+
+        //public virtual User_Db? User { get; set; }
     }
 }

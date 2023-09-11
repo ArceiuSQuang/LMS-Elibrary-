@@ -1,7 +1,7 @@
 using LMS_ELibrary.Model;
 using LMS_ELibrary.Services;
 using Microsoft.EntityFrameworkCore;
-/*we*/
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,6 +20,10 @@ builder.Services.AddScoped<IMonhocService, MonhocService>();
 builder.Services.AddScoped<IChudeService, ChudeService>();
 builder.Services.AddScoped<ITailieuService, TailieuService>();
 builder.Services.AddScoped<ILopgiangService, LopgiangService>();
+builder.Services.AddScoped<IBaigiangService, BaigiangService>();
+builder.Services.AddScoped<IDethiService, DethiService>();
+builder.Services.AddScoped<ICauhoiSerivce, CauhoiService>();
+builder.Services.AddScoped<IThongbaoService, ThongbaoService>();
 
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
