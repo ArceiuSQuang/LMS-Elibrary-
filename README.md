@@ -1,5 +1,5 @@
 <p>Le Hong Quang</p>
-<p>update 7/9/2023</p>
+<p>update 11/9/2023</p>
 # LMS-Elibrary
 ERD
 <p><img src="https://i.ibb.co/Rz753gm/Thuc-Tap-1.png" alt=""></p>
