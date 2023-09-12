@@ -22,6 +22,35 @@ namespace LMS_ELibrary.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("LMS_ELibrary.Data.Avt_Db", b =>
+            {
+                b.Property<int>("AvtID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvtID"), 1L, 1);
+
+                b.Property<DateTime>("Ngay_tai_len")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Path")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("nvarchar(100)");
+
+                b.Property<double>("Size")
+                    .HasColumnType("float");
+
+                b.Property<int?>("UserId")
+                    .HasColumnType("int");
+
+                b.HasKey("AvtID");
+
+                b.HasIndex("UserId");
+
+                b.ToTable("Avt");
+            });
+
             modelBuilder.Entity("LMS_ELibrary.Data.Chude_Db", b =>
             {
                 b.Property<int>("ChudeID")
@@ -37,7 +66,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasKey("ChudeID");
 
-                b.ToTable("Chude", (string)null);
+                b.ToTable("Chude");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Dethi_Db", b =>
@@ -74,7 +103,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasIndex("UserID");
 
-                b.ToTable("Dethi", (string)null);
+                b.ToTable("Dethi");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Ex_QA_Db", b =>
@@ -97,7 +126,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasIndex("QAID");
 
-                b.ToTable("Ex_QA", (string)null);
+                b.ToTable("Ex_QA");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Help_Db", b =>
@@ -127,7 +156,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasIndex("UserID");
 
-                b.ToTable("Help", (string)null);
+                b.ToTable("Help");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Lopgiangday_Db", b =>
@@ -160,7 +189,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasIndex("UserID");
 
-                b.ToTable("LopGiangday", (string)null);
+                b.ToTable("LopGiangday");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Monhoc_Db", b =>
@@ -195,7 +224,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasIndex("TobomonId");
 
-                b.ToTable("Monhoc", (string)null);
+                b.ToTable("Monhoc");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.QA_Db", b =>
@@ -225,7 +254,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasIndex("MonhocID");
 
-                b.ToTable("QA", (string)null);
+                b.ToTable("QA");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Tailieu_Baigiang_Db", b =>
@@ -272,7 +301,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasIndex("UserId");
 
-                b.ToTable("Tailieu_Baigiang", (string)null);
+                b.ToTable("Tailieu_Baigiang");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Thongbao_Db", b =>
@@ -304,7 +333,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasIndex("UserID");
 
-                b.ToTable("Thongbao", (string)null);
+                b.ToTable("Thongbao");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Tobomon_Db", b =>
@@ -321,7 +350,7 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasKey("TobomonId");
 
-                b.ToTable("Tobomon", (string)null);
+                b.ToTable("Tobomon");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.User_Db", b =>
@@ -334,6 +363,9 @@ namespace LMS_ELibrary.Migrations
 
                 b.Property<string>("Avt")
                     .HasColumnType("nvarchar(max)");
+
+                b.Property<int?>("AvtId")
+                    .HasColumnType("int");
 
                 b.Property<string>("Diachi")
                     .HasColumnType("nvarchar(max)");
@@ -366,7 +398,18 @@ namespace LMS_ELibrary.Migrations
 
                 b.HasKey("UserID");
 
-                b.ToTable("User", (string)null);
+                b.ToTable("User");
+            });
+
+            modelBuilder.Entity("LMS_ELibrary.Data.Avt_Db", b =>
+            {
+                b.HasOne("LMS_ELibrary.Data.User_Db", "User")
+                    .WithMany("ListAvt")
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Avt_User");
+
+                b.Navigation("User");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Dethi_Db", b =>
@@ -388,7 +431,9 @@ namespace LMS_ELibrary.Migrations
             {
                 b.HasOne("LMS_ELibrary.Data.Dethi_Db", "Dethi")
                     .WithMany("ListExQA")
-                    .HasForeignKey("DethiID");
+                    .HasForeignKey("DethiID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Ex_Qa_Dethi");
 
                 b.HasOne("LMS_ELibrary.Data.QA_Db", "QA")
                     .WithMany("ListExQA")
@@ -504,6 +549,8 @@ namespace LMS_ELibrary.Migrations
 
             modelBuilder.Entity("LMS_ELibrary.Data.User_Db", b =>
             {
+                b.Navigation("ListAvt");
+
                 b.Navigation("ListDethi");
 
                 b.Navigation("ListHelp");

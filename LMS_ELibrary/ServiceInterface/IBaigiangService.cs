@@ -1,7 +1,7 @@
 ﻿using LMS_ELibrary.Data;
 using LMS_ELibrary.Model;
 
-namespace LMS_ELibrary.Services
+namespace LMS_ELibrary.ServiceInterface
 {
     public interface IBaigiangService
     {
@@ -14,5 +14,7 @@ namespace LMS_ELibrary.Services
         Task<KqJson> addBaigiang(Tailieu_Baigiang_Db baigiang);
 
         Task<KqJson> changeMonhoc(int iddoc, int mon);
+
+        Task<KqJson> XoaBaigiang(int user_id, int baigiang_id);
     }
 }

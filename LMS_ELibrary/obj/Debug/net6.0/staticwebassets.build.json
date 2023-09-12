@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "FxHbZBYwwfaNl/GkK6PhIuLPvInWXkLN88w43gXcjpc=",
+  "Hash": "5oqgAXc80AJBIenwUbk/M7EPx0gdHWRXO3SjRHRrauU=",
   "Source": "LMS_ELibrary",
   "BasePath": "_content/LMS_ELibrary",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "LMS_ELibrary\\wwwroot",
+      "Source": "LMS_ELibrary",
+      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "BasePath": "_content/LMS_ELibrary",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

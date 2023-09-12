@@ -1,7 +1,6 @@
-﻿using LMS_ELibrary.Data;
-using LMS_ELibrary.Model;
-/*we*/
-namespace LMS_ELibrary.Services
+﻿using LMS_ELibrary.Model;
+
+namespace LMS_ELibrary.ServiceInterface
 {
     public interface IMonhocService
     {
@@ -10,7 +9,6 @@ namespace LMS_ELibrary.Services
 
         Task<Monhoc_Model> chitietMonhoc(int id);
 
-        Task<IEnumerable<Monhoc_Db>> locMonhoc(int sort);
-
+        Task<IEnumerable<Monhoc_Model>> locMonhoc(int option);
     }
 }

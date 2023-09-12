@@ -1,6 +1,6 @@
 ﻿using LMS_ELibrary.Model;
 
-namespace LMS_ELibrary.Services
+namespace LMS_ELibrary.ServiceInterface
 {
     public interface ILopgiangService
     {

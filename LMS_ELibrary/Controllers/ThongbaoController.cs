@@ -1,6 +1,7 @@
 ﻿using LMS_ELibrary.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using LMS_ELibrary.ServiceInterface;
 
 namespace LMS_ELibrary.Controllers
 {
@@ -25,6 +26,30 @@ namespace LMS_ELibrary.Controllers
         public async Task<IActionResult> searchThongbao(int user_id, string keyword)
         {
             return Ok(await _thongbaoService.searchThongbao(user_id, keyword));
+        }
+
+        [HttpGet("ChitietThongbao/{idthongbao}")]
+        public async Task<IActionResult> chitietThongbao(int idthongbao)
+        {
+            return Ok(await _thongbaoService.chitietThongbao(idthongbao));
+        }
+
+        [HttpDelete("xoaThongbao")]
+        public async Task<IActionResult> deleteThongbao([FromQuery] List<int> listIdthongbai)
+        {
+            return Ok(await _thongbaoService.xoaThongbao(listIdthongbai));
+        }
+
+        [HttpGet("Locthongbao/{status}")]
+        public async Task<IActionResult> locThongbao(int user_id, int status)
+        {
+            return Ok(await _thongbaoService.locThongBao(user_id, status));
+        }
+
+        [HttpPut("danhDauThongBao/{thongbao_id}")]
+        public async Task<IActionResult> danhDauThongBao(int thongbao_id, int status)
+        {
+            return Ok(await _thongbaoService.danhDauThongBao(thongbao_id, status));
         }
     }
 }

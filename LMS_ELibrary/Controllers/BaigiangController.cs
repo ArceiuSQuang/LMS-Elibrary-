@@ -1,6 +1,7 @@
 ﻿using LMS_ELibrary.Data;
 using LMS_ELibrary.Services;
 using Microsoft.AspNetCore.Http;
+using LMS_ELibrary.ServiceInterface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LMS_ELibrary.Controllers
@@ -43,6 +44,12 @@ namespace LMS_ELibrary.Controllers
         public async Task<IActionResult> themvaomonhoc(int iddoc, int idmon)
         {
             return Ok(await _baigiangService.changeMonhoc(iddoc, idmon));
+        }
+
+        [HttpDelete("XoaBaigiang")]
+        public async Task<IActionResult> xoaBaigiang(int user_id, int baigiang_id)
+        {
+            return Ok(await _baigiangService.XoaBaigiang(user_id, baigiang_id));
         }
     }
 }

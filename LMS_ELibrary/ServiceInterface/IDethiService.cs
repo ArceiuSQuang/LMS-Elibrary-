@@ -1,7 +1,6 @@
-﻿using LMS_ELibrary.Data;
-using LMS_ELibrary.Model;
+﻿using LMS_ELibrary.Model;
 
-namespace LMS_ELibrary.Services
+namespace LMS_ELibrary.ServiceInterface
 {
     public interface IDethiService
     {
@@ -21,8 +20,7 @@ namespace LMS_ELibrary.Services
 
         Task<KqJson> guiPheduyet(int iddethi);
 
-        Task<KqJson> xoaDethi(int iddethi);
-
+        Task<KqJson> deleteDethi(int id);
 
 
     }

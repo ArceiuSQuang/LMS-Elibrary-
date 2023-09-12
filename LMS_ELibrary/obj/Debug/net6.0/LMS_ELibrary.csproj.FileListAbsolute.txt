@@ -148,3 +148,4 @@ C:\Users\arcei\Source\Repos\LMS-Elibrary-\LMS_ELibrary\bin\Debug\net6.0\System.T
 C:\Users\arcei\Source\Repos\LMS-Elibrary-\LMS_ELibrary\bin\Debug\net6.0\System.Text.Json.dll
 C:\Users\arcei\Source\Repos\LMS-Elibrary-\LMS_ELibrary\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\arcei\Source\Repos\LMS-Elibrary-\LMS_ELibrary\bin\Debug\net6.0\Controllers\MonhocController.cs
+C:\Users\arcei\Source\Repos\LMS-Elibrary-\LMS_ELibrary\bin\Debug\net6.0\LMS_ELibrary.staticwebassets.runtime.json

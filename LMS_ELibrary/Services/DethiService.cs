@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LMS_ELibrary.Data;
 using LMS_ELibrary.Model;
+using LMS_ELibrary.ServiceInterface;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMS_ELibrary.Services
@@ -518,12 +519,14 @@ namespace LMS_ELibrary.Services
             }
         }
 
-        public async Task<KqJson> xoaDethi(int iddethi)
+        public async Task<KqJson> deleteDethi(int id)
         {
             try
             {
                 KqJson kq = new KqJson();
-                var result = await _context.dethi_Dbs.SingleOrDefaultAsync(p => p.DethiID == iddethi && p.Status == -1 || p.Status == 2);
+                var result = await (from dt in _context.dethi_Dbs
+                                    where dt.DethiID == id && dt.Status == -1 || dt.DethiID == id && dt.Status == 2
+                                    select dt).SingleOrDefaultAsync();
                 if (result != null)
                 {
                     _context.dethi_Dbs.Remove(result);
@@ -531,12 +534,12 @@ namespace LMS_ELibrary.Services
                     if (row > 0)
                     {
                         kq.Status = true;
-                        kq.Message = "Xoa de thi Thanh cong!";
+                        kq.Message = "thanh cong";
                     }
                     else
                     {
                         kq.Status = false;
-                        kq.Message = "Xoa That Bai!";
+                        kq.Message = "that bai";
                     }
                 }
                 else
@@ -544,7 +547,6 @@ namespace LMS_ELibrary.Services
                     kq.Status = false;
                     kq.Message = "Khong tim thay";
                 }
-
                 return kq;
             }
             catch (Exception e)

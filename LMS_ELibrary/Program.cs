@@ -1,5 +1,6 @@
 using LMS_ELibrary.Model;
 using LMS_ELibrary.Services;
+using LMS_ELibrary.ServiceInterface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,8 +23,9 @@ builder.Services.AddScoped<ITailieuService, TailieuService>();
 builder.Services.AddScoped<ILopgiangService, LopgiangService>();
 builder.Services.AddScoped<IBaigiangService, BaigiangService>();
 builder.Services.AddScoped<IDethiService, DethiService>();
-builder.Services.AddScoped<ICauhoiSerivce, CauhoiService>();
+builder.Services.AddScoped<ICauhoiService, CauhoiService>();
 builder.Services.AddScoped<IThongbaoService, ThongbaoService>();
+builder.Services.AddScoped<IHotroService, HotroService>();
 
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

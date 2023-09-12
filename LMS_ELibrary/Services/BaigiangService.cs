@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LMS_ELibrary.Data;
 using LMS_ELibrary.Model;
+using LMS_ELibrary.ServiceInterface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -16,8 +17,6 @@ namespace LMS_ELibrary.Services
             _context = context;
             _mapper = mapper;
         }
-
-
 
         public async Task<IEnumerable<Tailieu_Baigiang_Model>> getallbaigigang(int id)
         {
@@ -326,6 +325,88 @@ namespace LMS_ELibrary.Services
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<KqJson> XoaBaigiang(int user_id, int baigiang_id)
+        {
+            /*
+             Xoa duoc cac bai giang trang thai cho duyet (Status=0)
+            Cac bai giang da duyet (Status=1) chi co quan ly (user.Role = 0) moi duoc xoa
+             */
+            try
+            {
+                KqJson kq = new KqJson();
+                if (user_id != null && baigiang_id != null)
+                {
+                    var user = await _context.user_Dbs.SingleOrDefaultAsync(p => p.UserID == user_id);
+                    if (user != null)
+                    {
+                        var result = await _context.tailieu_Baigiang_Dbs.SingleOrDefaultAsync(p => p.DocId == baigiang_id);
+                        if (result != null)
+                        {
+                            if (result.Status == 1)
+                            {
+                                if (user.Role == 0)
+                                {
+                                    _context.tailieu_Baigiang_Dbs.Remove(result);
+                                    int row = await _context.SaveChangesAsync();
+                                    if (row > 0)
+                                    {
+                                        kq.Status = true;
+                                        kq.Message = "Xoa thanh cong";
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Xoa that bai");
+                                    }
+                                }
+                                else
+                                {
+                                    throw new Exception("Khong du quyen thuc hien");
+                                }
+                            }
+                            else
+                            {
+                                _context.tailieu_Baigiang_Dbs.Remove(result);
+                                int row = await _context.SaveChangesAsync();
+                                if (row > 0)
+                                {
+                                    kq.Status = true;
+                                    kq.Message = "Xoa thanh cong";
+                                }
+                                else
+                                {
+                                    throw new Exception("Xoa that bai");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("Not found");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Nguoi dung khong ton tai");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Bad Request");
+                }
+
+
+                return kq;
+
+            }
+            catch (Exception e)
+            {
+                KqJson kq = new KqJson();
+                kq.Status = false;
+                kq.Message = e.Message;
+
+                return kq;
             }
         }
     }
