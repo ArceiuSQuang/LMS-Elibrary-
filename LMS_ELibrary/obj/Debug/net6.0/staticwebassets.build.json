@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8Zpdttj3WjGOAHfgooHINc4rTjaDaSrDTMSPlE/+Z5E=",
+  "Hash": "5oqgAXc80AJBIenwUbk/M7EPx0gdHWRXO3SjRHRrauU=",
   "Source": "LMS_ELibrary",
   "BasePath": "_content/LMS_ELibrary",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "LMS_ELibrary\\wwwroot",
       "Source": "LMS_ELibrary",
-      "ContentRoot": "C:\\Users\\arcei\\source\\repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
       "BasePath": "_content/LMS_ELibrary",
       "Pattern": "**"
     }
