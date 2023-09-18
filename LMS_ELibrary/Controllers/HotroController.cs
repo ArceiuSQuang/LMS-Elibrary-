@@ -1,7 +1,9 @@
-﻿using LMS_ELibrary.Services;
+﻿
+using LMS_ELibrary.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LMS_ELibrary.ServiceInterface;
+using LMS_ELibrary.Model;
 
 namespace LMS_ELibrary.Controllers
 {
@@ -20,6 +22,12 @@ namespace LMS_ELibrary.Controllers
         public async Task<IActionResult> getall()
         {
             return Ok(await _hotroService.getAlllisthotro());
+        }
+
+        [HttpPost("addHelp")]
+        public async Task<IActionResult> addHelp(Help_Model help)
+        {
+            return Ok(await _hotroService.addHelp(help));
         }
     }
 }

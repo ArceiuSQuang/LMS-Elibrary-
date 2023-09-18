@@ -77,8 +77,8 @@ namespace LMS_ELibrary.Migrations
 
                 SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DethiID"), 1L, 1);
 
-                b.Property<string>("File_Path")
-                    .HasColumnType("nvarchar(max)");
+                b.Property<int?>("FileId")
+                    .HasColumnType("int");
 
                 b.Property<string>("Madethi")
                     .IsRequired()
@@ -98,6 +98,8 @@ namespace LMS_ELibrary.Migrations
                     .HasColumnType("int");
 
                 b.HasKey("DethiID");
+
+                b.HasIndex("FileId");
 
                 b.HasIndex("MonhocID");
 
@@ -127,6 +129,33 @@ namespace LMS_ELibrary.Migrations
                 b.HasIndex("QAID");
 
                 b.ToTable("Ex_QA");
+            });
+
+            modelBuilder.Entity("LMS_ELibrary.Data.File_Dethi_Db", b =>
+            {
+                b.Property<int?>("FileId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("FileId"), 1L, 1);
+
+                b.Property<DateTime?>("NgayTao")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Path")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<double?>("Size")
+                    .HasColumnType("float");
+
+                b.Property<int?>("User_Id")
+                    .HasColumnType("int");
+
+                b.HasKey("FileId");
+
+                b.HasIndex("User_Id");
+
+                b.ToTable("FileDethi");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Help_Db", b =>
@@ -414,6 +443,12 @@ namespace LMS_ELibrary.Migrations
 
             modelBuilder.Entity("LMS_ELibrary.Data.Dethi_Db", b =>
             {
+                b.HasOne("LMS_ELibrary.Data.File_Dethi_Db", "File_Dethi")
+                    .WithMany("listDethi")
+                    .HasForeignKey("FileId")
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Dethi_File");
+
                 b.HasOne("LMS_ELibrary.Data.Monhoc_Db", "Monhoc")
                     .WithMany("ListDethi")
                     .HasForeignKey("MonhocID");
@@ -421,6 +456,8 @@ namespace LMS_ELibrary.Migrations
                 b.HasOne("LMS_ELibrary.Data.User_Db", "User")
                     .WithMany("ListDethi")
                     .HasForeignKey("UserID");
+
+                b.Navigation("File_Dethi");
 
                 b.Navigation("Monhoc");
 
@@ -442,6 +479,17 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("Dethi");
 
                 b.Navigation("QA");
+            });
+
+            modelBuilder.Entity("LMS_ELibrary.Data.File_Dethi_Db", b =>
+            {
+                b.HasOne("LMS_ELibrary.Data.User_Db", "User")
+                    .WithMany("list_File_Dethi")
+                    .HasForeignKey("User_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_File_User");
+
+                b.Navigation("User");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.Help_Db", b =>
@@ -526,6 +574,11 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("ListExQA");
             });
 
+            modelBuilder.Entity("LMS_ELibrary.Data.File_Dethi_Db", b =>
+            {
+                b.Navigation("listDethi");
+            });
+
             modelBuilder.Entity("LMS_ELibrary.Data.Monhoc_Db", b =>
             {
                 b.Navigation("ListCauhoi");
@@ -560,6 +613,8 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("ListTailieu_Baigiang");
 
                 b.Navigation("ListThongbao");
+
+                b.Navigation("list_File_Dethi");
             });
 #pragma warning restore 612, 618
         }
