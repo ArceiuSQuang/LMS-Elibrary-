@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration.Conventions;
 using LMS_ELibrary.Data;
 using LMS_ELibrary.Model;
 using LMS_ELibrary.ServiceInterface;
@@ -20,7 +21,7 @@ namespace LMS_ELibrary.Services
 
         }
         //Status = -1 => luu nhap ; 0 => cho duyet ; 1 => da duyet ; 2 => huy yeu cau
-        public async Task<IEnumerable<Monhoc_Model>> getAllMonhoc()
+        public async Task<IEnumerable<Monhoc_Model>> getAllMonhoc(int user_id)
         {
             var monhoc = await (from x in _context.monhoc_Dbs orderby x.TenMonhoc ascending select x).ToListAsync();
             List<Monhoc_Model> modelmh = new List<Monhoc_Model>();
@@ -34,19 +35,18 @@ namespace LMS_ELibrary.Services
                 List<Lopgiangday_Db> listlop = new List<Lopgiangday_Db>();
                 mon.ListTailieu_Baigiang.ForEach(e =>
                 {
-                    if (e.Status == 1)
-                    {
-                        Tailieu_Baigiang_Db tailieu = new Tailieu_Baigiang_Db();
-                        tailieu.UserId = e.UserId;
-                        tailieu.TenDoc = e.TenDoc;
-                        tailieu.Status = e.Status;
-                        tailieu.MonhocID = e.MonhocID;
-                        tailieu.Sualancuoi = e.Sualancuoi;
-                        tailieu.Path = e.Path;
-                        tailieu.Kichthuoc = e.Kichthuoc;
-                        tailieu.ChudeID = e.ChudeID;
-                        list.Add(tailieu);
-                    }
+
+                    Tailieu_Baigiang_Db tailieu = new Tailieu_Baigiang_Db();
+                    tailieu.UserId = e.UserId;
+                    tailieu.TenDoc = e.TenDoc;
+                    tailieu.Status = e.Status;
+                    tailieu.MonhocID = e.MonhocID;
+                    tailieu.Sualancuoi = e.Sualancuoi;
+                    tailieu.Path = e.Path;
+                    tailieu.Kichthuoc = e.Kichthuoc;
+                    tailieu.ChudeID = e.ChudeID;
+                    list.Add(tailieu);
+
 
 
                 });
@@ -67,10 +67,33 @@ namespace LMS_ELibrary.Services
 
             foreach (Monhoc_Model model in modelmh)
             {
+                int tongtailieu = model.ListTailieu_Baigiang.Count;
+                int tailieudaduyet = 0;
 
                 foreach (var x1 in model.ListTailieu_Baigiang)
                 {
-                    x1.Status = "Da duyet";
+                    if (x1.Status == "1")
+                    {
+                        x1.Status = "Da duyet";
+                        tailieudaduyet++;
+                    }
+                    else if (x1.Status == "0")
+                    {
+                        x1.Status = "Cho duyet";
+                    }
+
+                }
+                model.TailieuPheduyet = tailieudaduyet + "/" + tongtailieu;
+                var check = await (from c in _context.monhocYeuthich_Dbs
+                                   where c.MonhocId == model.MonhocID && c.UserId == user_id
+                                   select c).ToListAsync();
+                if (check.Count > 0)
+                {
+                    model.TrangthaiYeuthich = "Yeu thich";
+                }
+                else
+                {
+                    model.TrangthaiYeuthich = null;
                 }
             }
 
@@ -223,7 +246,7 @@ namespace LMS_ELibrary.Services
 
         }
 
-        public async Task<Monhoc_Model> chitietMonhoc(int id)
+        public async Task<Monhoc_Model> chitietMonhoc(int id, int user_id)
         {
             try
             {
@@ -270,6 +293,17 @@ namespace LMS_ELibrary.Services
                     {
                         x1.Status = "Da duyet";
                     }
+                }
+                var check = await (from c in _context.monhocYeuthich_Dbs
+                                   where c.MonhocId == mon.MonhocID && c.UserId == user_id
+                                   select c).SingleOrDefaultAsync();
+                if (check != null)
+                {
+                    mon.TrangthaiYeuthich = "Yeu thich";
+                }
+                else
+                {
+                    mon.TrangthaiYeuthich = null;
                 }
                 return mon;
 
@@ -554,6 +588,90 @@ namespace LMS_ELibrary.Services
             catch (Exception e)
             {
                 KqJson kq = new KqJson();
+                kq.Status = false;
+                kq.Message = e.Message;
+
+                return kq;
+            }
+        }
+
+        public async Task<KqJson> ThemYeuthichMonhoc(MonhocYeuthich_Model model)
+        {
+            KqJson kq = new KqJson();
+            try
+            {
+                if (model != null)
+                {
+                    MonhocYeuthich_Db wish = new MonhocYeuthich_Db();
+                    wish.MonhocId = model.MonhocId;
+                    wish.UserId = model.UserId;
+
+                    await _context.monhocYeuthich_Dbs.AddAsync(wish);
+                    int row = await _context.SaveChangesAsync();
+                    if (row > 0)
+                    {
+                        kq.Status = true;
+                        kq.Message = "Da thich mon hoc nay";
+
+                        return kq;
+                    }
+                    else
+                    {
+                        throw new Exception("That bai");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Bad Request");
+                }
+            }
+            catch (Exception e)
+            {
+                kq.Status = false;
+                kq.Message = e.Message;
+
+                return kq;
+            }
+        }
+
+        public async Task<KqJson> HuyYeuthichMonhoc(MonhocYeuthich_Model model)
+        {
+            KqJson kq = new KqJson();
+            try
+            {
+                if (model != null)
+                {
+                    var result = await (from yt in _context.monhocYeuthich_Dbs
+                                        where yt.MonhocId == model.MonhocId && yt.UserId == model.UserId
+                                        select yt).SingleOrDefaultAsync();
+                    if (result != null)
+                    {
+                        _context.monhocYeuthich_Dbs.Remove(result);
+                        int row = await _context.SaveChangesAsync();
+                        if (row > 0)
+                        {
+                            kq.Status = true;
+                            kq.Message = "Huy yeu thich thanh cong";
+
+                            return kq;
+                        }
+                        else
+                        {
+                            throw new Exception("That bai");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Not Found");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Bad Request");
+                }
+            }
+            catch (Exception e)
+            {
                 kq.Status = false;
                 kq.Message = e.Message;
 

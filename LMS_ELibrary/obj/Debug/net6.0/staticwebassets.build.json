@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5oqgAXc80AJBIenwUbk/M7EPx0gdHWRXO3SjRHRrauU=",
+  "Hash": "/dCjVPtw5LdHW1vbo/3byd6LgG1cqdOpTtxSuzhso7Q=",
   "Source": "LMS_ELibrary",
   "BasePath": "_content/LMS_ELibrary",
   "Mode": "Default",
@@ -15,5 +15,74 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\Images\\ERD.png",
+      "SourceId": "LMS_ELibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "BasePath": "_content/LMS_ELibrary",
+      "RelativePath": "Images/ERD.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\ERD.png"
+    },
+    {
+      "Identity": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\Images\\hongquang_avt.PNG",
+      "SourceId": "LMS_ELibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "BasePath": "_content/LMS_ELibrary",
+      "RelativePath": "Images/hongquang_avt.PNG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\hongquang_avt.PNG"
+    },
+    {
+      "Identity": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\Tainguyen\\ERD.png",
+      "SourceId": "LMS_ELibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "BasePath": "_content/LMS_ELibrary",
+      "RelativePath": "Tainguyen/ERD.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Tainguyen\\ERD.png"
+    },
+    {
+      "Identity": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\Tainguyen\\hongquang_avt.PNG",
+      "SourceId": "LMS_ELibrary",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "BasePath": "_content/LMS_ELibrary",
+      "RelativePath": "Tainguyen/hongquang_avt.PNG",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Tainguyen\\hongquang_avt.PNG"
+    }
+  ]
 }

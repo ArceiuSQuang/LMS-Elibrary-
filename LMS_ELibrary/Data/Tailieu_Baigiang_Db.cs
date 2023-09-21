@@ -27,9 +27,13 @@ namespace LMS_ELibrary.Data
         public int Status { get; set; }
         [Required]
         public int Type { get; set; }
+        public int? Nguoiduyet { get; set; }
+        public DateTime? NgayDuyet { get; set; }
+        public string? Ghichu { get; set; }
 
         public virtual User_Db? User { get; set; }
         public virtual Monhoc_Db? Monhoc { get; set; }
         public virtual Chude_Db? Chude { get; set; }
+        public virtual List<CauhoiVandap_Db>? list_Cauhoivandap { get; set; }
     }
 }
