@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LMS_ELibrary.Data;
 using LMS_ELibrary.Model;
+using LMS_ELibrary.Model.DTO;
 using LMS_ELibrary.ServiceInterface;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
@@ -21,11 +22,11 @@ namespace LMS_ELibrary.Services
         {
             try
             {
-                var result = await (from tailieu in _context.tailieu_Baigiang_Dbs where tailieu.Type == 0 && tailieu.UserId == id select tailieu).ToListAsync();
+                var result = await (from tailieu in _context.tailieu_Baigiang_Dbs where tailieu.UserId == id select tailieu).ToListAsync();
                 foreach (var item in result)
                 {
                     var col = _context.Entry(item);
-                    col.Reference(p => p.User).Load();
+                    await col.Reference(p => p.User).LoadAsync();
                     User_Db user = new User_Db();
                     user.UserFullname = item.User.UserFullname;
                     user.UserName = item.User.UserName;
@@ -39,12 +40,27 @@ namespace LMS_ELibrary.Services
 
                     item.User = user;
 
+
+
+
+
                 }
                 List<Tailieu_Baigiang_Model> listtialieu = new List<Tailieu_Baigiang_Model>();
                 listtialieu = _mapper.Map<List<Tailieu_Baigiang_Model>>(result);
                 foreach (var item in listtialieu)
                 {
-                    item.Type = "Tai lieu";
+
+
+
+                    if (item.Type == "0")
+                    {
+                        item.Type = "Tai Nguyen";
+                    }
+                    else if (item.Type == "1")
+                    {
+                        item.Type = "Bai Giang";
+                    }
+
                     if (item.Status == "0")
                     {
                         item.Status = "Cho Duyet";
@@ -52,6 +68,10 @@ namespace LMS_ELibrary.Services
                     else if (item.Status == "1")
                     {
                         item.Status = "Da duyet";
+                    }
+                    else if (item.Status == "-1")
+                    {
+                        item.Status = "Chua duyet"; //chua gui phe duyet
                     }
                     if (item.User.Role == "0")
                     {
@@ -291,7 +311,7 @@ namespace LMS_ELibrary.Services
             }
         }
 
-        public async Task<KqJson> tai_len_Tai_Lieu(int user_id, List<IFormFile> files)
+        public async Task<KqJson> tai_len_Tai_Nguyen(int user_id, List<IFormFile> files)
         {
             try
             {
@@ -316,8 +336,72 @@ namespace LMS_ELibrary.Services
                             _tailieu.UserId = user_id;
                             _tailieu.TenDoc = fileName;
                             _tailieu.Sualancuoi = DateTime.Now;
-                            _tailieu.Status = 0; // status =0 -> dang duyet ; 1 -> da duyet
-                            _tailieu.Type = 0;  // type = 0 -> tailieu ; 1-> baigiang
+                            _tailieu.Status = -1; // status =-1 -> chua duyet ; 0 -> dang duyet ; 1 -> da duyet
+                            _tailieu.Type = 0;  // type = 0 -> tainguyen ; 1-> baigiang
+                            _tailieu.Path = path;
+                            _tailieu.Kichthuoc = size;
+
+                        }
+                        listadd.Add(_tailieu);
+                    }
+                    await _context.tailieu_Baigiang_Dbs.AddRangeAsync(listadd);
+                    int row = await _context.SaveChangesAsync();
+                    if (row > 0)
+                    {
+                        kq.Status = true;
+                        kq.Message = "Tai len thanh cong";
+                    }
+                    else
+                    {
+                        throw new Exception("Tai len that bai!");
+                    }
+
+
+
+                    return kq;
+                }
+                else
+                {
+                    throw new Exception("Bad Request");
+                }
+            }
+            catch (Exception e)
+            {
+                KqJson kq = new KqJson();
+                kq.Status = false;
+                kq.Message = e.Message;
+
+                return kq;
+            }
+        }
+
+        public async Task<KqJson> tai_len_Bai_Giang(int user_id, List<IFormFile> files)
+        {
+            try
+            {
+                if (user_id != null && files != null)
+                {
+                    KqJson kq = new KqJson();
+                    List<Tailieu_Baigiang_Db> listadd = new List<Tailieu_Baigiang_Db>();
+                    foreach (var file in files)
+                    {
+                        string path = "";
+                        double size = file.Length;
+                        var fileName = Path.GetFileName(file.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\TaiNguyen\", fileName);
+                        Tailieu_Baigiang_Db _tailieu = new Tailieu_Baigiang_Db();
+                        using (var stream = System.IO.File.Create(filePath))
+                        {
+                            await file.CopyToAsync(stream);
+                            path = filePath;
+                        }
+                        if (path != null)
+                        {
+                            _tailieu.UserId = user_id;
+                            _tailieu.TenDoc = fileName;
+                            _tailieu.Sualancuoi = DateTime.Now;
+                            _tailieu.Status = -1; // status = -1 -> chua duyet ; 0 -> dang duyet ; 1 -> da duyet
+                            _tailieu.Type = 1;  // type = 0 -> tainguyen ; 1-> baigiang
                             _tailieu.Path = path;
                             _tailieu.Kichthuoc = size;
 
@@ -392,38 +476,35 @@ namespace LMS_ELibrary.Services
             }
         }
 
-        public async Task<KqJson> them_vao_Monhoc_va_Chude(int monhoc_id, int chude_id, List<int> tailieu_id)
+        public async Task<object> them_vao_Monhoc_va_Chude(Gui_pheduyet_tailieu_Request_DTO model)
         {
             try
             {
-                if (monhoc_id != null && chude_id != null && tailieu_id != null)
+                if (model != null)
                 {
-                    foreach (int docid in tailieu_id)
-                    {
-                        var result = await _context.tailieu_Baigiang_Dbs.SingleOrDefaultAsync(p => p.DocId == docid);
-                        if (result != null)
-                        {
-                            result.MonhocID = monhoc_id;
-                            result.ChudeID = chude_id;
-                            result.Sualancuoi = DateTime.Now;
-                        }
-                        else
-                        {
-                            throw new Exception("Not Found");
-                        }
-                    }
-                    int row = await _context.SaveChangesAsync();
-                    if (row == tailieu_id.Count)
-                    {
-                        KqJson kq = new KqJson();
-                        kq.Status = true;
-                        kq.Message = "Thanh cong!";
 
-                        return kq;
+                    var result = await _context.tailieu_Baigiang_Dbs.SingleOrDefaultAsync(p => p.DocId == model.Tailieu_Id);
+                    if (result != null)
+                    {
+                        result.MonhocID = model.Monhoc_Id;
+                        result.ChudeID = model.Chude_Id;
+                        result.TenDoc = model.TenTailieu != null ? result.TenDoc = model.TenTailieu : result.TenDoc;
+                        result.Sualancuoi = DateTime.Now;
+                        result.Status = 0;
                     }
                     else
                     {
-                        throw new Exception("Co phan tu khong phu hop");
+                        throw new Exception("Not Found");
+                    }
+
+                    int row = await _context.SaveChangesAsync();
+                    if (row > 0)
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        throw new Exception("Gui that bai");
                     }
                 }
                 else

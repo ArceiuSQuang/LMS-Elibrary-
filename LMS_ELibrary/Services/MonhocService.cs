@@ -28,6 +28,7 @@ namespace LMS_ELibrary.Services
 
             foreach (var mon in monhoc)
             {
+
                 var col = _context.Entry(mon);
                 col.Collection(m => m.ListTailieu_Baigiang).Load();
                 col.Collection(n => n.ListLopgiangday).Load();
@@ -67,6 +68,8 @@ namespace LMS_ELibrary.Services
 
             foreach (Monhoc_Model model in modelmh)
             {
+                var gv = await _context.user_Dbs.SingleOrDefaultAsync(p => p.UserID == model.UserId);
+                model.Giangvien = gv.UserFullname;
                 int tongtailieu = model.ListTailieu_Baigiang.Count;
                 int tailieudaduyet = 0;
 
@@ -160,7 +163,7 @@ namespace LMS_ELibrary.Services
             }
         }
 
-        public async Task<IEnumerable<Monhoc_Model>> locMonhoc(int option)
+        public async Task<IEnumerable<Monhoc_Model>> locMonhoc(int option, int user_id)
         {
             //0=>ten ; 1=> truycapgannhat
             try
@@ -219,8 +222,11 @@ namespace LMS_ELibrary.Services
                     mon.ListLopgiangday = listlop;
                 }
                 listmh = _mapper.Map<List<Monhoc_Model>>(listmonhoc);
+
                 foreach (var item in listmh)
                 {
+                    int tongtailieu = item.ListTailieu_Baigiang.Count;
+                    int tailieudaduyet = 0;
                     foreach (var x1 in item.ListTailieu_Baigiang)
                     {
                         if (x1.Status == "0")
@@ -230,7 +236,24 @@ namespace LMS_ELibrary.Services
                         else if (x1.Status == "1")
                         {
                             x1.Status = "Da duyet";
+                            tailieudaduyet++;
                         }
+                    }
+                    var gv = await _context.user_Dbs.SingleOrDefaultAsync(p => p.UserID == item.UserId);
+                    item.Giangvien = gv.UserFullname;
+
+                    item.TailieuPheduyet = tailieudaduyet + "/" + tongtailieu;
+
+                    var check = await (from c in _context.monhocYeuthich_Dbs
+                                       where c.MonhocId == item.MonhocID && c.UserId == user_id
+                                       select c).SingleOrDefaultAsync();
+                    if (check != null)
+                    {
+                        item.TrangthaiYeuthich = "Yeu thich";
+                    }
+                    else
+                    {
+                        item.TrangthaiYeuthich = null;
                     }
                 }
 
@@ -283,8 +306,11 @@ namespace LMS_ELibrary.Services
                 result.ListLopgiangday = listlop;
                 Monhoc_Model mon = new Monhoc_Model();
                 mon = _mapper.Map<Monhoc_Model>(result);
+                int tongtailieu = mon.ListTailieu_Baigiang.Count;
+                int tailieudaduyet = 0;
                 foreach (var x1 in mon.ListTailieu_Baigiang)
                 {
+
                     if (x1.Status == "0")
                     {
                         x1.Status = "Chua duyet";
@@ -292,8 +318,16 @@ namespace LMS_ELibrary.Services
                     else if (x1.Status == "1")
                     {
                         x1.Status = "Da duyet";
+                        tailieudaduyet++;
                     }
                 }
+
+                var gv = await _context.user_Dbs.SingleOrDefaultAsync(p => p.UserID == result.UserId);
+                mon.Giangvien = gv.UserFullname;
+
+                mon.TailieuPheduyet = tailieudaduyet + "/" + tongtailieu;
+
+
                 var check = await (from c in _context.monhocYeuthich_Dbs
                                    where c.MonhocId == mon.MonhocID && c.UserId == user_id
                                    select c).SingleOrDefaultAsync();
@@ -449,6 +483,7 @@ namespace LMS_ELibrary.Services
                     mh.Mota = monhoc.Mota;
                     mh.Tinhtrang = -1;
                     mh.TobomonId = monhoc.TobomonId;
+                    mh.UserId = monhoc.UserId;
 
                     _context.monhoc_Dbs.Add(mh);
                     int row = await _context.SaveChangesAsync();
@@ -480,51 +515,99 @@ namespace LMS_ELibrary.Services
             }
         }
 
-        public async Task<object> locMonhoc_theo_Tinhtrang(int status)
+        public async Task<object> locMonhoc_theo_Tinhtrang(int status, int giangvien_id)
         {
             try
             {
-                if (status != null)
+                if (status != null && giangvien_id != null)
                 {
-                    if (status < -1 || status > 2)
+                    var gv = await _context.user_Dbs.SingleOrDefaultAsync(p => p.UserID == giangvien_id);
+                    if (gv != null)
                     {
-                        throw new Exception("Request Params not Suitable!");
-                    }
-                    else
-                    {
-                        List<Monhoc_Model> monhoc = new List<Monhoc_Model>();
-                        var result = await (from mh in _context.monhoc_Dbs where mh.Tinhtrang == status select mh).ToListAsync();
-                        if (result.Count > 0)
+                        if (gv.Role == 0 || gv.Role == 1)
                         {
-                            foreach (var tm in result)
+                            if (status < -1 || status > 2)
                             {
-                                var col = _context.Entry(tm);
-                                col.Reference(p => p.Tobomon).Load();
-
-                                Tobomon_Db _tbm = new Tobomon_Db();
-                                _tbm.TobomonName = tm.Tobomon.TobomonName;
-
-                                tm.Tobomon = _tbm;
+                                throw new Exception("Request Params not Suitable!");
                             }
-                            monhoc = _mapper.Map<List<Monhoc_Model>>(result);
-                            foreach (var m in monhoc)
+                            else
                             {
-                                if (m.Tinhtrang == "0")
+                                List<Monhoc_Model> monhoc = new List<Monhoc_Model>();
+                                var result = await (from mh in _context.monhoc_Dbs where mh.Tinhtrang == status select mh).ToListAsync();
+                                if (result.Count > 0)
                                 {
-                                    m.Tinhtrang = "Cho Duyet";
+                                    foreach (var tm in result)
+                                    {
+                                        var col = _context.Entry(tm);
+                                        await col.Reference(p => p.Tobomon).LoadAsync();
+
+                                        Tobomon_Db _tbm = new Tobomon_Db();
+                                        _tbm.TobomonName = tm.Tobomon.TobomonName;
+
+                                        tm.Tobomon = _tbm;
+
+                                        await col.Collection(m => m.ListTailieu_Baigiang).LoadAsync();
+                                        List<Tailieu_Baigiang_Db> list = new List<Tailieu_Baigiang_Db>();
+                                        tm.ListTailieu_Baigiang.ForEach(e =>
+                                        {
+                                            Tailieu_Baigiang_Db tailieu = new Tailieu_Baigiang_Db();
+                                            tailieu.UserId = e.UserId;
+                                            tailieu.TenDoc = e.TenDoc;
+                                            tailieu.Status = e.Status;
+                                            tailieu.MonhocID = e.MonhocID;
+                                            tailieu.Sualancuoi = e.Sualancuoi;
+                                            tailieu.Path = e.Path;
+                                            tailieu.Kichthuoc = e.Kichthuoc;
+                                            tailieu.ChudeID = e.ChudeID;
+                                            list.Add(tailieu);
+                                        });
+                                    }
+                                    monhoc = _mapper.Map<List<Monhoc_Model>>(result);
+                                    foreach (var m in monhoc)
+                                    {
+                                        int tongtailieu = m.ListTailieu_Baigiang.Count;
+                                        int tailieudaduyet = 0;
+                                        if (m.Tinhtrang == "0")
+                                        {
+                                            m.Tinhtrang = "Cho Duyet";
+                                        }
+                                        else if (m.Tinhtrang == "1")
+                                        {
+                                            m.Tinhtrang = "Da Duyet";
+
+                                        }
+                                        foreach (var x1 in m.ListTailieu_Baigiang)
+                                        {
+
+                                            if (x1.Status == "0")
+                                            {
+                                                x1.Status = "Chua duyet";
+                                            }
+                                            else if (x1.Status == "1")
+                                            {
+                                                x1.Status = "Da duyet";
+                                                tailieudaduyet++;
+                                            }
+                                        }
+                                        m.TailieuPheduyet = tailieudaduyet + "/" + tongtailieu;
+                                    }
                                 }
-                                else if (m.Tinhtrang == "1")
+                                else
                                 {
-                                    m.Tinhtrang = "Da Duyet";
+                                    throw new Exception("Not Found");
                                 }
+
+                                return monhoc;
                             }
                         }
                         else
                         {
-                            throw new Exception("Not Found");
+                            throw new Exception("Khong du quyen");
                         }
-
-                        return monhoc;
+                    }
+                    else
+                    {
+                        throw new Exception("Not Found");
                     }
                 }
                 else

@@ -289,6 +289,32 @@ namespace LMS_ELibrary.Migrations
                 b.ToTable("Help");
             });
 
+            modelBuilder.Entity("LMS_ELibrary.Data.Hocvien_Lop_Db", b =>
+            {
+                b.Property<int>("HvLopID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HvLopID"), 1L, 1);
+
+                b.Property<int?>("Lopgiang_Id")
+                    .HasColumnType("int");
+
+                b.Property<int?>("LopgiangdayID")
+                    .HasColumnType("int");
+
+                b.Property<int?>("User_Id")
+                    .HasColumnType("int");
+
+                b.HasKey("HvLopID");
+
+                b.HasIndex("LopgiangdayID");
+
+                b.HasIndex("User_Id");
+
+                b.ToTable("Hocvien_Lop");
+            });
+
             modelBuilder.Entity("LMS_ELibrary.Data.Lopgiangday_Db", b =>
             {
                 b.Property<int>("LopgiangdayID")
@@ -531,6 +557,32 @@ namespace LMS_ELibrary.Migrations
                 b.ToTable("Thongbao");
             });
 
+            modelBuilder.Entity("LMS_ELibrary.Data.ThongbaoLop_Db", b =>
+            {
+                b.Property<int>("ThongbaoLopID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThongbaoLopID"), 1L, 1);
+
+                b.Property<int?>("Lopgiang_Id")
+                    .HasColumnType("int");
+
+                b.Property<int?>("LopgiangdayID")
+                    .HasColumnType("int");
+
+                b.Property<int?>("Thongbao_Id")
+                    .HasColumnType("int");
+
+                b.HasKey("ThongbaoLopID");
+
+                b.HasIndex("LopgiangdayID");
+
+                b.HasIndex("Thongbao_Id");
+
+                b.ToTable("ThongbaoLop");
+            });
+
             modelBuilder.Entity("LMS_ELibrary.Data.Tobomon_Db", b =>
             {
                 b.Property<int>("TobomonId")
@@ -737,6 +789,23 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("User");
             });
 
+            modelBuilder.Entity("LMS_ELibrary.Data.Hocvien_Lop_Db", b =>
+            {
+                b.HasOne("LMS_ELibrary.Data.Lopgiangday_Db", "Lopgiang")
+                    .WithMany("List_HocvienLop")
+                    .HasForeignKey("LopgiangdayID");
+
+                b.HasOne("LMS_ELibrary.Data.User_Db", "User")
+                    .WithMany("list_HocvienLop")
+                    .HasForeignKey("User_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_hocvienlop_user");
+
+                b.Navigation("Lopgiang");
+
+                b.Navigation("User");
+            });
+
             modelBuilder.Entity("LMS_ELibrary.Data.Lopgiangday_Db", b =>
             {
                 b.HasOne("LMS_ELibrary.Data.Monhoc_Db", "Monhoc")
@@ -827,6 +896,23 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("User");
             });
 
+            modelBuilder.Entity("LMS_ELibrary.Data.ThongbaoLop_Db", b =>
+            {
+                b.HasOne("LMS_ELibrary.Data.Lopgiangday_Db", "Lopgiang")
+                    .WithMany("list_ThongbaoLop")
+                    .HasForeignKey("LopgiangdayID");
+
+                b.HasOne("LMS_ELibrary.Data.Thongbao_Db", "Thongbao")
+                    .WithMany("List_ThongbaoLop")
+                    .HasForeignKey("Thongbao_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_thongbaolop_thongbao");
+
+                b.Navigation("Lopgiang");
+
+                b.Navigation("Thongbao");
+            });
+
             modelBuilder.Entity("LMS_ELibrary.Data.User_Db", b =>
             {
                 b.HasOne("LMS_ELibrary.Data.Role_Db", "RoleDb")
@@ -860,6 +946,13 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("listDethi");
             });
 
+            modelBuilder.Entity("LMS_ELibrary.Data.Lopgiangday_Db", b =>
+            {
+                b.Navigation("List_HocvienLop");
+
+                b.Navigation("list_ThongbaoLop");
+            });
+
             modelBuilder.Entity("LMS_ELibrary.Data.Monhoc_Db", b =>
             {
                 b.Navigation("ListCauhoi");
@@ -890,6 +983,11 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("list_Cauhoivandap");
             });
 
+            modelBuilder.Entity("LMS_ELibrary.Data.Thongbao_Db", b =>
+            {
+                b.Navigation("List_ThongbaoLop");
+            });
+
             modelBuilder.Entity("LMS_ELibrary.Data.Tobomon_Db", b =>
             {
                 b.Navigation("ListMonhoc");
@@ -916,6 +1014,8 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("list_Cautrl");
 
                 b.Navigation("list_File_Dethi");
+
+                b.Navigation("list_HocvienLop");
 
                 b.Navigation("list_Mongiangday");
 
