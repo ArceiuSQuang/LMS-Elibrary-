@@ -379,6 +379,9 @@ namespace LMS_ELibrary.Migrations
                 b.Property<int?>("TobomonId")
                     .HasColumnType("int");
 
+                b.Property<DateTime?>("Truycapgannhat")
+                    .HasColumnType("datetime2");
+
                 b.Property<int?>("UserId")
                     .HasColumnType("int");
 
@@ -568,17 +571,19 @@ namespace LMS_ELibrary.Migrations
                 b.Property<int?>("Lopgiang_Id")
                     .HasColumnType("int");
 
-                b.Property<int?>("LopgiangdayID")
+                b.Property<int?>("Thongbao_Id")
                     .HasColumnType("int");
 
-                b.Property<int?>("Thongbao_Id")
+                b.Property<int?>("User_Id")
                     .HasColumnType("int");
 
                 b.HasKey("ThongbaoLopID");
 
-                b.HasIndex("LopgiangdayID");
+                b.HasIndex("Lopgiang_Id");
 
                 b.HasIndex("Thongbao_Id");
+
+                b.HasIndex("User_Id");
 
                 b.ToTable("ThongbaoLop");
             });
@@ -598,6 +603,30 @@ namespace LMS_ELibrary.Migrations
                 b.HasKey("TobomonId");
 
                 b.ToTable("Tobomon");
+            });
+
+            modelBuilder.Entity("LMS_ELibrary.Data.Tongquan_Db", b =>
+            {
+                b.Property<int>("TongquanID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TongquanID"), 1L, 1);
+
+                b.Property<int?>("Monhoc_Id")
+                    .HasColumnType("int");
+
+                b.Property<string>("Noidung")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Tieude")
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("TongquanID");
+
+                b.HasIndex("Monhoc_Id");
+
+                b.ToTable("Tongquan");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.User_Db", b =>
@@ -623,6 +652,9 @@ namespace LMS_ELibrary.Migrations
 
                 b.Property<bool?>("Gioitinh")
                     .HasColumnType("bit");
+
+                b.Property<string>("MaUser")
+                    .HasColumnType("nvarchar(max)");
 
                 b.Property<string>("Nganh")
                     .HasColumnType("nvarchar(max)");
@@ -900,7 +932,9 @@ namespace LMS_ELibrary.Migrations
             {
                 b.HasOne("LMS_ELibrary.Data.Lopgiangday_Db", "Lopgiang")
                     .WithMany("list_ThongbaoLop")
-                    .HasForeignKey("LopgiangdayID");
+                    .HasForeignKey("Lopgiang_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_thongbaolop_lop");
 
                 b.HasOne("LMS_ELibrary.Data.Thongbao_Db", "Thongbao")
                     .WithMany("List_ThongbaoLop")
@@ -908,9 +942,28 @@ namespace LMS_ELibrary.Migrations
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_thongbaolop_thongbao");
 
+                b.HasOne("LMS_ELibrary.Data.User_Db", "User")
+                    .WithMany("list_Thongbao")
+                    .HasForeignKey("User_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_thongbaolop_user");
+
                 b.Navigation("Lopgiang");
 
                 b.Navigation("Thongbao");
+
+                b.Navigation("User");
+            });
+
+            modelBuilder.Entity("LMS_ELibrary.Data.Tongquan_Db", b =>
+            {
+                b.HasOne("LMS_ELibrary.Data.Monhoc_Db", "Monhoc")
+                    .WithMany("list_Tongquan")
+                    .HasForeignKey("Monhoc_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_tongquan_monhoc");
+
+                b.Navigation("Monhoc");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.User_Db", b =>
@@ -966,6 +1019,8 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("List_Monhocyeuthich");
 
                 b.Navigation("list_Chude");
+
+                b.Navigation("list_Tongquan");
             });
 
             modelBuilder.Entity("LMS_ELibrary.Data.QA_Db", b =>
@@ -1020,6 +1075,8 @@ namespace LMS_ELibrary.Migrations
                 b.Navigation("list_Mongiangday");
 
                 b.Navigation("list_Monhocyeuthich");
+
+                b.Navigation("list_Thongbao");
             });
 #pragma warning restore 612, 618
         }
