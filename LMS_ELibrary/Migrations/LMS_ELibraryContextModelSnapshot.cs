@@ -175,6 +175,9 @@ namespace LMS_ELibrary.Migrations
                 b.Property<int?>("FileId")
                     .HasColumnType("int");
 
+                b.Property<string>("Ghichu")
+                    .HasColumnType("nvarchar(max)");
+
                 b.Property<string>("Madethi")
                     .IsRequired()
                     .HasMaxLength(20)
@@ -359,6 +362,9 @@ namespace LMS_ELibrary.Migrations
 
                 SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MonhocID"), 1L, 1);
 
+                b.Property<string>("Ghichu")
+                    .HasColumnType("nvarchar(max)");
+
                 b.Property<string>("MaMonhoc")
                     .IsRequired()
                     .HasMaxLength(20)
@@ -367,6 +373,12 @@ namespace LMS_ELibrary.Migrations
                 b.Property<string>("Mota")
                     .IsRequired()
                     .HasColumnType("nvarchar(max)");
+
+                b.Property<DateTime?>("Ngayduyet")
+                    .HasColumnType("datetime2");
+
+                b.Property<int?>("Nguoiduyet")
+                    .HasColumnType("int");
 
                 b.Property<string>("TenMonhoc")
                     .IsRequired()
@@ -540,9 +552,6 @@ namespace LMS_ELibrary.Migrations
                     .IsRequired()
                     .HasColumnType("nvarchar(max)");
 
-                b.Property<int>("Status")
-                    .HasColumnType("int");
-
                 b.Property<DateTime>("Thoigian")
                     .HasColumnType("datetime2");
 
@@ -569,6 +578,9 @@ namespace LMS_ELibrary.Migrations
                 SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ThongbaoLopID"), 1L, 1);
 
                 b.Property<int?>("Lopgiang_Id")
+                    .HasColumnType("int");
+
+                b.Property<int?>("Status")
                     .HasColumnType("int");
 
                 b.Property<int?>("Thongbao_Id")

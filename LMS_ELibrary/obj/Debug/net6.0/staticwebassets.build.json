@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/dCjVPtw5LdHW1vbo/3byd6LgG1cqdOpTtxSuzhso7Q=",
+  "Hash": "UZNBqukAIJnXbpPFMHRNHZMf45lwc8WGCE1O2cgfHIE=",
   "Source": "LMS_ELibrary",
   "BasePath": "_content/LMS_ELibrary",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "LMS_ELibrary\\wwwroot",
       "Source": "LMS_ELibrary",
-      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\arcei\\source\\repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
       "BasePath": "_content/LMS_ELibrary",
       "Pattern": "**"
     }
@@ -20,7 +20,7 @@
       "Identity": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\Images\\ERD.png",
       "SourceId": "LMS_ELibrary",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\arcei\\source\\repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
       "BasePath": "_content/LMS_ELibrary",
       "RelativePath": "Images/ERD.png",
       "AssetKind": "All",
@@ -37,7 +37,7 @@
       "Identity": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\Images\\hongquang_avt.PNG",
       "SourceId": "LMS_ELibrary",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\arcei\\source\\repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
       "BasePath": "_content/LMS_ELibrary",
       "RelativePath": "Images/hongquang_avt.PNG",
       "AssetKind": "All",
@@ -54,7 +54,7 @@
       "Identity": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\Tainguyen\\ERD.png",
       "SourceId": "LMS_ELibrary",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\arcei\\source\\repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
       "BasePath": "_content/LMS_ELibrary",
       "RelativePath": "Tainguyen/ERD.png",
       "AssetKind": "All",
@@ -71,7 +71,7 @@
       "Identity": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\Tainguyen\\hongquang_avt.PNG",
       "SourceId": "LMS_ELibrary",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\arcei\\Source\\Repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\arcei\\source\\repos\\LMS-Elibrary-\\LMS_ELibrary\\wwwroot\\",
       "BasePath": "_content/LMS_ELibrary",
       "RelativePath": "Tainguyen/hongquang_avt.PNG",
       "AssetKind": "All",
