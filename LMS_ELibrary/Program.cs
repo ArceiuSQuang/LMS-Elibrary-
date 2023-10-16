@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
-
+//Quang
 // Add services to the container.
 
 builder.Services.AddControllers();
