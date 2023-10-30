@@ -18,9 +18,9 @@ namespace LMS_ELibrary.Controllers
         }
 
         [HttpGet("getAllMonhoc")]
-        public async Task<IActionResult> getAllMonhoc([FromQuery] int userid)
+        public async Task<IActionResult> getAllMonhoc(int userid, int page)
         {
-            var result = await _monhocService.getAllMonhoc(userid);
+            var result = await _monhocService.getAllMonhoc(userid, page);
             return Ok(result);
         }
 
@@ -50,15 +50,15 @@ namespace LMS_ELibrary.Controllers
             return Ok(result);
         }
 
-        [HttpPut("editMonhoc/{monhoc_id}")]
-        public async Task<IActionResult> editMonhoc(int monhoc_id, Monhoc_Model monhoc)
+        [HttpPut("editMonhoc")]
+        public async Task<IActionResult> editMonhoc(Edit_Monhoc_Request_DTO model)
         {
-            return Ok(await _monhocService.editMonhoc(monhoc_id, monhoc));
+            return Ok(await _monhocService.editMonhoc(model));
         }
-        [HttpPut("Gui-xetduyet-Huy-xetduyet")]
-        public async Task<IActionResult> setTrangthai([FromQuery] List<int> monhoc_id, int status)
+        [HttpPut("Gui-xetduyet-Huy-xetduyet/Test")]
+        public async Task<IActionResult> setTrangthai(Guiyeucau_Huyyeucau_Monhoc_Request_DTO model)
         {
-            return Ok(await _monhocService.setTrangthai(monhoc_id, status));
+            return Ok(await _monhocService.setTrangthai(model));
         }
 
         [HttpPost("addMonhoc")]
@@ -67,21 +67,16 @@ namespace LMS_ELibrary.Controllers
             return Ok(await _monhocService.addMonhoc(monhoc));
         }
 
-        [HttpDelete("xoaMonhoc/{monhoc_id}")]
-        public async Task<IActionResult> deleteMonhoc(int monhoc_id)
+        [HttpDelete("xoaMonhoc")]
+        public async Task<IActionResult> deleteMonhoc(Delete_Entity_Request_DTO model)
         {
-            return Ok(await _monhocService.deleteMonhoc(monhoc_id));
+            return Ok(await _monhocService.deleteMonhoc(model));
         }
 
-        [HttpPost("ThemYeuthich")]
-        public async Task<IActionResult> themyeuthich(MonhocYeuthich_Model model)
+        [HttpPost("Yeuthichmonhoc")]
+        public async Task<IActionResult> Yeuthichmonhoc(Yeuthich_Request_DTO model)
         {
-            return Ok(await _monhocService.ThemYeuthichMonhoc(model));
-        }
-        [HttpPost("HuyYeuthich")]
-        public async Task<IActionResult> Huyyeuthich(MonhocYeuthich_Model model)
-        {
-            return Ok(await _monhocService.HuyYeuthichMonhoc(model));
+            return Ok(await _monhocService.YeuthichMonhoc(model));
         }
 
         [HttpGet("Hocvien/Mondanghoc")]
@@ -91,15 +86,27 @@ namespace LMS_ELibrary.Controllers
         }
 
         [HttpPost("ThemtongquanMonhoc")]
-        public async Task<IActionResult> themTongquanmonhoc(List<Them_Tongquan_Monhoc_Request_DTO> listmodel)
+        public async Task<IActionResult> themTongquanmonhoc(Them_Tongquan_Monhoc_Request_DTO model)
         {
-            return Ok(await _monhocService.themTongquanMonhoc(listmodel));
+            return Ok(await _monhocService.themTongquanMonhoc(model));
         }
 
         [HttpPut("XetduyetMonhoc")]
         public async Task<IActionResult> xetDuyetMonHoc(Xetduyet_Request_DTO model)
         {
             return Ok(await _monhocService.xetduyetMonhoc(model));
+        }
+
+        [HttpGet("Mondangday")]
+        public async Task<IActionResult> MOndangady(int giangvien_Id)
+        {
+            return Ok(await _monhocService.Mondangday(giangvien_Id));
+        }
+
+        [HttpGet("Xem_Monhoc_Gansao")]
+        public async Task<IActionResult> Xemmonhocgansao(int hocvien_id, int option)
+        {
+            return Ok(await _monhocService.Xem_List_monhoc_Yeuthich(hocvien_id, option));
         }
 
     }
